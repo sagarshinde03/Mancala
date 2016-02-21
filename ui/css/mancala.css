@@ -1,0 +1,29 @@
+.holes {
+    padding: 10px;
+    margin: 10px;
+}
+
+.goalholes {
+    padding: 5px;
+}
+
+#player1area {
+    background-color: #5cb85c;
+    width: 3em;
+    text-align: center;
+    font-size: larger;
+}
+
+#player2area {
+    background-color: #c9302c;
+    width: 3em;
+    text-align: center;
+    font-size: larger;
+}
+
+.white-space {
+    margin-top: 10%;
+}
+
+.holearea {
+}
