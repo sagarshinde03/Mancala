@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -53,11 +54,15 @@ public class WebSocketServer {
 			System.out.println("GameState" + gs);
 			try {
 				System.out.println(gs.getPlayer1());
-				gs.getPlayer1().getBasicRemote().sendText("Hey! I am there!");
+				Map<String, String> tempMap = new HashMap<>();
+				tempMap.put("event", "ack");
+				tempMap.put("message", "Freind Joined! Your turn first!");
+				gs.getPlayer1().getBasicRemote().sendText(gson.toJson(tempMap));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
+
 		case "registration":
 			int selfId = Integer.parseInt(map.get("selfId"));
 			gs = new GameState();
@@ -65,10 +70,11 @@ public class WebSocketServer {
 			SessionManager.getInstance().createSession(selfId, gs);
 			System.out.println("GameState" + gs);
 			break;
-			
+
 		case "play":
-			
+			System.out.println(message);
 			break;
+
 		default:
 			System.out.println("Some custom event occurred!");
 		}

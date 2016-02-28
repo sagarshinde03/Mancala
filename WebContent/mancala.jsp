@@ -9,7 +9,8 @@
 </head>
 
 <body>
-
+	
+	<div id="sessionConnector">
 	<%
 		if (request.getAttribute("started") == null) {
 	%>
@@ -29,6 +30,7 @@
 	<%
 		}
 	%>
+	</div>
 	<div align="center" class="container">
 		<div class="white-space"></div>
 		<table class="table-bordered">
@@ -54,7 +56,7 @@
 			</tr>
 		</table>
 	</div>
-
+	<div align="center" id="msg"><p></p></div>
 	<script src="https://code.jquery.com/jquery-2.2.0.min.js"
 		type="text/javascript"></script>
 	<script>
