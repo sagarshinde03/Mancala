@@ -22,7 +22,7 @@ public class Endpoints {
 	@Produces(MediaType.TEXT_HTML)
 	public Response getInt(@Context HttpServletRequest request,
 	    @Context HttpServletResponse response) {
-		request.setAttribute("id",
+		request.setAttribute("selfid",
 		    SessionManager.getInstance().generateSessionId());
 		Viewable view = new Viewable("/mancala.jsp");
 		return Response.ok().entity(view).build();
@@ -34,8 +34,12 @@ public class Endpoints {
 	public Response startGame(@Context HttpServletRequest request,
 	    @Context HttpServletResponse response) {
 
-		int id = Integer.parseInt(request.getParameter("id"));
-		request.setAttribute("id", id);
+		int player1 = Integer.parseInt(request.getParameter("id"));
+		int player2 = Integer.parseInt(request.getParameter("playerSession"));
+
+		SessionManager.getInstance().startSession(player1, player2);
+
+		request.setAttribute("sessionid", player1);
 		request.setAttribute("started", true);
 		Viewable view = new Viewable("/mancala.jsp");
 		return Response.ok().entity(view).build();

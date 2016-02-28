@@ -17,16 +17,14 @@
 	Welcome to Mancala!
 	<br> Use this id to connect with your partner:
 	<%
-		out.print(request.getAttribute("id"));
+		out.print(request.getAttribute("selfid"));
 	%>
 
 	<br> If you have id of your partner, enter it here:
 	<form method="post" action="/Mancala/app/start">
-		<input type="text" value="" name="id" /> 
-		
-		<input type="hidden"
-			value=<%=request.getAttribute("id")%> name="sessionId" />
-		<input type="submit" value="Play!" />	
+		<input type="text" value="" name="id" /> <input type="hidden"
+			value=<%=request.getAttribute("selfid")%> name="playerSession" /> <input
+			type="submit" value="Play!" />
 	</form>
 	<%
 		}
@@ -59,6 +57,13 @@
 
 	<script src="https://code.jquery.com/jquery-2.2.0.min.js"
 		type="text/javascript"></script>
+	<script>
+		var sessionId = <%=request.getAttribute("sessionid")%>
+		var selfId = <%=request.getAttribute("selfid")%>
+		<%boolean b = request.getAttribute("started") != null;%>
+		var isGameStarted = <%= b %>
+	</script>
 	<script src="/Mancala/js/mancala.js" type="text/javascript"></script>
+	<script src="/Mancala/js/websocket.js" type="text/javascript"></script>
 </body>
 </html>

@@ -46,14 +46,28 @@ public class SessionManager {
 		return null;
 	}
 
-	public boolean startSession(int sessionId) {
-		GameState gs = new GameState();
-		sessions.put(sessionId, gs);
+	public boolean startSession(int player1, int player2) {
+		this.sessionIds.remove(player1);
+		this.sessionIds.remove(player2);
+		this.sessions.remove(player2);
+		System.out.println(sessionIds);
+		System.out.println(sessions);
 		return true;
 	}
-	
+
+	public boolean createSession(int player1, GameState gs) {
+		this.sessions.put(player1, gs);
+		return true;
+	}
+
 	public boolean stopSession(int sessionId) {
-		 sessions.remove(sessionId);
-		 return true;
+		sessions.remove(sessionId);
+		return true;
+	}
+
+	public void removeWaitingSessions(int[] sessionIds) {
+		for (int sessionId : sessionIds) {
+			this.sessionIds.remove((Integer) sessionId);
+		}
 	}
 }
