@@ -37,22 +37,22 @@
 			<tr>
 				<td rowspan="2" id="player2area"><div class="goalholes"
 						id="player2hole">0</div></td>
-				<td class="holearea"><div class="holes" id="hole1">4</div></td>
-				<td class="holearea"><div class="holes" id="hole2">4</div></td>
-				<td class="holearea"><div class="holes" id="hole3">4</div></td>
-				<td class="holearea"><div class="holes" id="hole4">4</div></td>
-				<td class="holearea"><div class="holes" id="hole5">4</div></td>
+				<td class="holearea"><div class="holes" id="hole11">4</div></td>
+				<td class="holearea"><div class="holes" id="hole10">4</div></td>
+				<td class="holearea"><div class="holes" id="hole9">4</div></td>
+				<td class="holearea"><div class="holes" id="hole8">4</div></td>
+				<td class="holearea"><div class="holes" id="hole7">4</div></td>
 				<td class="holearea"><div class="holes" id="hole6">4</div></td>
 				<td rowspan="2" id="player1area"><div class="goalholes"
 						id="player1hole">0</div></td>
 			</tr>
 			<tr>
-				<td class="holearea"><div class="holes" id="hole7">4</div></td>
-				<td class="holearea"><div class="holes" id="hole8">4</div></td>
-				<td class="holearea"><div class="holes" id="hole9">4</div></td>
-				<td class="holearea"><div class="holes" id="hole10">0</div></td>
-				<td class="holearea"><div class="holes" id="hole11">4</div></td>
-				<td class="holearea"><div class="holes" id="hole12">4</div></td>
+				<td class="holearea"><div class="holes" id="hole0">4</div></td>
+				<td class="holearea"><div class="holes" id="hole1">4</div></td>
+				<td class="holearea"><div class="holes" id="hole2">4</div></td>
+				<td class="holearea"><div class="holes" id="hole3">0</div></td>
+				<td class="holearea"><div class="holes" id="hole4">4</div></td>
+				<td class="holearea"><div class="holes" id="hole5">4</div></td>
 			</tr>
 		</table>
 	</div>

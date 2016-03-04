@@ -7,24 +7,40 @@ import javax.websocket.Session;
 import com.google.gson.Gson;
 
 public class GameState {
-	private Session player1;
-	private Session player2;
+	private transient Session player1;
+	private transient Session player2;
 	private int playerTurn;
+	private int player1Score;
+	private int player2Score;
+	private int[] deck;
+	private int lastMove;
 	private final long uid = UUID.randomUUID().getLeastSignificantBits();
 
-	public GameState(Session player1) {
-		this.player1 = player1;
-	}
-
-	public GameState(Session player1, Session player2) {
-		this.player1 = player1;
-		this.player2 = player2;
-
-	}
-
 	public GameState() {
-		this.playerTurn = 1;
+		initialize();
 		System.out.println(toJson());
+	}
+
+	private void initialize() {
+		this.playerTurn = 1;
+		this.player1Score = 0;
+		this.player2Score = 0;
+		this.deck = new int[12];
+		for (int i = 0; i < 12; i++) {
+			this.deck[i] = 4;
+		}
+	}
+	
+	private void playHole(int hole) {
+		int marbles = deck[hole];
+		deck[hole] = 0;
+		
+		if (playerTurn == 1) {
+			
+		} else {
+			
+		}
+		
 	}
 
 	public String toJson() {
@@ -56,6 +72,30 @@ public class GameState {
 		return player2;
 	}
 
+	public int getPlayer1Score() {
+		return player1Score;
+	}
+
+	public void setPlayer1Score(int player1Score) {
+		this.player1Score = player1Score;
+	}
+
+	public int getPlayer2Score() {
+		return player2Score;
+	}
+
+	public void setPlayer2Score(int player2Score) {
+		this.player2Score = player2Score;
+	}
+
+	public int[] getDeck() {
+		return deck;
+	}
+
+	public void setDeck(int[] deck) {
+		this.deck = deck;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,7 +123,4 @@ public class GameState {
 		return "GameState [player1=" + player1 + ", player2=" + player2
 		    + ", playerTurn=" + playerTurn + ", uid=" + uid + "]";
 	}
-	
-	
-
 }

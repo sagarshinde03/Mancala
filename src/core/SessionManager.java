@@ -3,23 +3,30 @@
  */
 package core;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.Queue;
 import java.util.Set;
 
 public class SessionManager {
 
 	private Set<Integer> sessionIds;
 	private Map<Integer, GameState> sessions;
-	private Random random;
 	private static SessionManager instance;
+	private Queue<Integer> random;
 
 	private SessionManager() {
 		this.sessionIds = new HashSet<>();
 		this.sessions = new HashMap<>();
-		this.random = new Random();
+		this.random = new LinkedList<>();
+		for (int i = 0; i < 10000; i++) {
+			this.random.add(i);
+		}
+		Collections.shuffle((List<Integer>) this.random);
 	}
 
 	public static SessionManager getInstance() {
@@ -30,13 +37,7 @@ public class SessionManager {
 	}
 
 	public int generateSessionId() {
-		Integer sessionId = random.nextInt(10000);
-		while (sessionIds.contains(sessionId)
-		    && sessions.containsKey(sessionId)) {
-			sessionId = random.nextInt(10000);
-		}
-		sessionIds.add(sessionId);
-		return sessionId;
+		return this.random.poll();
 	}
 
 	public GameState getSession(int sessionId) {
@@ -62,6 +63,7 @@ public class SessionManager {
 
 	public boolean stopSession(int sessionId) {
 		sessions.remove(sessionId);
+		random.add(sessionId);
 		return true;
 	}
 
@@ -69,5 +71,9 @@ public class SessionManager {
 		for (int sessionId : sessionIds) {
 			this.sessionIds.remove((Integer) sessionId);
 		}
+	}
+
+	public void updateSession(int sessionId, GameState gs) {
+		sessions.put(sessionId, gs);
 	}
 }
