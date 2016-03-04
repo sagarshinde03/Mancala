@@ -47,6 +47,7 @@ public class WebSocketServer {
 		switch (event) {
 		case "start":
 			try {
+				System.out.println("==========================================");
 				int sessionId = Integer.parseInt(map.get("sessionId"));
 				GameState gs = SessionManager.getInstance()
 				    .getSession(sessionId);
@@ -65,6 +66,7 @@ public class WebSocketServer {
 			break;
 
 		case "registration":
+			System.out.println("REGISTRATION-------------------------------");
 			int selfId = Integer.parseInt(map.get("selfId"));
 			GameState gs = new GameState();
 			gs.setPlayer1(session);
@@ -76,6 +78,7 @@ public class WebSocketServer {
 				int sessionId = Integer.parseInt(map.get("sessionId"));
 				gs = SessionManager.getInstance().getSession(sessionId);
 				System.out.println(gs);
+				gs.playHole(Integer.parseInt(map.get("hole")));
 				Map<String, String> tempMap = new HashMap<>();
 				tempMap.put("event", "play");
 				tempMap.put("hole", map.get("hole"));
@@ -90,6 +93,10 @@ public class WebSocketServer {
 			}
 			break;
 
+		case "close":
+			int sessionId = Integer.parseInt(map.get("activeSession"));
+			// SessionManager.getInstance().removeWaitingSessions(sessionId);
+			break;
 		default:
 			System.out.println("Some custom event occurred!");
 		}

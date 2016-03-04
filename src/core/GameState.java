@@ -14,6 +14,8 @@ public class GameState {
 	private int player2Score;
 	private int[] deck;
 	private int lastMove;
+	private int winner;
+	private boolean freeTurn;
 	private final long uid = UUID.randomUUID().getLeastSignificantBits();
 
 	public GameState() {
@@ -25,22 +27,104 @@ public class GameState {
 		this.playerTurn = 1;
 		this.player1Score = 0;
 		this.player2Score = 0;
+		this.winner = -1;
 		this.deck = new int[12];
 		for (int i = 0; i < 12; i++) {
 			this.deck[i] = 4;
 		}
 	}
-	
-	private void playHole(int hole) {
+
+	public void playHole(int hole) {
 		int marbles = deck[hole];
+		lastMove = hole;
 		deck[hole] = 0;
-		
-		if (playerTurn == 1) {
-			
-		} else {
-			
+		freeTurn = false;
+		play(hole, marbles);
+		if (checkWin() >= 0) {
+			winner = checkWin();
 		}
-		
+	}
+
+	private int checkWin() {
+		boolean player1SideEmpty = true;
+		boolean player2SideEmpty = true;
+		for (int i = 0; i < 6; i++) {
+			if (deck[i] > 0) {
+				player1SideEmpty = false;
+				break;
+			}
+		}
+
+		for (int i = 6; i < 12; i++) {
+			if (deck[i] > 0) {
+				player2SideEmpty = false;
+				break;
+			}
+
+		}
+
+		if (player1SideEmpty || player2SideEmpty) {
+			if (player1Score > player2Score) {
+				return 1;
+			} else if (player2Score > player1Score) {
+				return 2;
+			} else {
+				return 0;
+			}
+		}
+		return -1;
+	}
+
+	private void play(int hole, int marbles) {
+		if (marbles <= 0) {
+
+			if (freeTurn)
+				return;
+
+			if (playerTurn == 1) {
+				playerTurn = 2;
+			} else {
+				playerTurn = 1;
+			}
+			return;
+		}
+
+		if (marbles > 0) {
+			if (hole == 5 && playerTurn == 1) {
+				player1Score++;
+				marbles--;
+			}
+
+			if (hole == 11 && playerTurn == 2) {
+				player2Score++;
+				marbles--;
+			}
+
+			if (marbles == 0) {
+				freeTurn = true;
+			}
+		}
+
+		if (marbles == 1 && deck[hole] == 0) {
+			if (playerTurn == 1) {
+				player1Score += deck[12 - hole];
+				deck[12 - hole] = 0;
+			} else if (playerTurn == 2) {
+				player2Score += deck[12 - hole];
+				deck[12 - hole] = 0;
+			}
+		}
+
+		hole++;
+		if (hole == 12) {
+			hole = 0;
+		}
+
+		if (marbles > 0) {
+			deck[hole]++;
+			marbles--;
+		}
+		play(hole, marbles);
 	}
 
 	public String toJson() {
@@ -94,6 +178,14 @@ public class GameState {
 
 	public void setDeck(int[] deck) {
 		this.deck = deck;
+	}
+
+	public int getLastMove() {
+		return lastMove;
+	}
+
+	public void setLastMove(int lastMove) {
+		this.lastMove = lastMove;
 	}
 
 	@Override

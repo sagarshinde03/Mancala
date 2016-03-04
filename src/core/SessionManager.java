@@ -67,10 +67,8 @@ public class SessionManager {
 		return true;
 	}
 
-	public void removeWaitingSessions(int[] sessionIds) {
-		for (int sessionId : sessionIds) {
-			this.sessionIds.remove((Integer) sessionId);
-		}
+	public void removeWaitingSessions(int sessionId) {
+		this.sessionIds.remove((Integer) sessionId);
 	}
 
 	public void updateSession(int sessionId, GameState gs) {

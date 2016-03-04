@@ -33,6 +33,7 @@
 	</div>
 	<div align="center" class="container">
 		<div class="white-space"></div>
+		<div align="center" id="turn">Waiting for player to join!</div>
 		<table class="table-bordered">
 			<tr>
 				<td rowspan="2" id="player2area"><div class="goalholes"
