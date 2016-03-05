@@ -105,17 +105,23 @@ public class GameState {
 			}
 		}
 
+		hole++;
 		if (marbles == 1 && deck[hole] == 0) {
 			if (playerTurn == 1) {
-				player1Score += deck[12 - hole];
-				deck[12 - hole] = 0;
+				player1Score += deck[11 - hole] + 1;
+				deck[11 - hole] = 0;
+				marbles--;
+				play(hole, marbles);
+				return;
 			} else if (playerTurn == 2) {
-				player2Score += deck[12 - hole];
-				deck[12 - hole] = 0;
+				player2Score += deck[11 - hole] + 1;
+				deck[11 - hole] = 0;
+				marbles--;
+				play(hole, marbles);
+				return;
 			}
 		}
 
-		hole++;
 		if (hole == 12) {
 			hole = 0;
 		}
@@ -186,6 +192,22 @@ public class GameState {
 
 	public void setLastMove(int lastMove) {
 		this.lastMove = lastMove;
+	}
+
+	public int getWinner() {
+		return winner;
+	}
+
+	public void setWinner(int winner) {
+		this.winner = winner;
+	}
+
+	public boolean isFreeTurn() {
+		return freeTurn;
+	}
+
+	public void setFreeTurn(boolean freeTurn) {
+		this.freeTurn = freeTurn;
 	}
 
 	@Override
