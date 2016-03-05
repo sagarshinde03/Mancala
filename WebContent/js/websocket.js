@@ -51,7 +51,7 @@ function onMessage(event) {
 				$("#msg").html("Player 2 won!").fadeIn();
 			}
 		}
-		
+
 		var deck = gamestate["deck"];
 		for (var i = 0; i < deck.length; i++) {
 			$("#hole" + i).html(deck[i]);
@@ -61,7 +61,7 @@ function onMessage(event) {
 		turn = (gamestate.playerTurn == player);
 		$(".highlight").removeClass("highlight");
 		$("#hole" + gamestate.lastMove).addClass("highlight");
-		
+
 		if (turn) {
 			$("#turn").html("Your turn!");
 		} else {

@@ -20,7 +20,6 @@ public class GameState {
 
 	public GameState() {
 		initialize();
-		System.out.println(toJson());
 	}
 
 	private void initialize() {
@@ -106,14 +105,14 @@ public class GameState {
 		}
 
 		hole++;
-		if (marbles == 1 && deck[hole] == 0) {
-			if (playerTurn == 1) {
+		if (marbles == 1 && deck[hole] == 0 && deck[11 - hole] > 0) {
+			if (playerTurn == 1 && hole > -1 && hole < 6) {
 				player1Score += deck[11 - hole] + 1;
 				deck[11 - hole] = 0;
 				marbles--;
 				play(hole, marbles);
 				return;
-			} else if (playerTurn == 2) {
+			} else if (playerTurn == 2 && hole > 5 && hole < 12) {
 				player2Score += deck[11 - hole] + 1;
 				deck[11 - hole] = 0;
 				marbles--;

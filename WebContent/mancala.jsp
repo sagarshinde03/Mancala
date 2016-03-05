@@ -51,7 +51,7 @@
 				<td class="holearea"><div class="holes" id="hole0">4</div></td>
 				<td class="holearea"><div class="holes" id="hole1">4</div></td>
 				<td class="holearea"><div class="holes" id="hole2">4</div></td>
-				<td class="holearea"><div class="holes" id="hole3">0</div></td>
+				<td class="holearea"><div class="holes" id="hole3">4</div></td>
 				<td class="holearea"><div class="holes" id="hole4">4</div></td>
 				<td class="holearea"><div class="holes" id="hole5">4</div></td>
 			</tr>

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.websocket.OnClose;
@@ -23,6 +25,7 @@ import core.SessionManager;
 @ServerEndpoint("/play")
 public class WebSocketServer {
 
+	private static final Logger logger = Logger.getAnonymousLogger();
 	private final Gson gson = new Gson();
 	private final Type type = new TypeToken<Map<String, String>>() {
 	}.getType();
@@ -44,10 +47,10 @@ public class WebSocketServer {
 	public void handleMessage(String message, Session session) {
 		Map<String, String> map = gson.fromJson(message, type);
 		String event = map.get("event");
+		logger.fine(map.toString());
 		switch (event) {
 		case "start":
 			try {
-				System.out.println("==========================================");
 				int sessionId = Integer.parseInt(map.get("sessionId"));
 				GameState gs = SessionManager.getInstance()
 				    .getSession(sessionId);
@@ -60,13 +63,11 @@ public class WebSocketServer {
 				gs.getPlayer1().getBasicRemote().sendText(gson.toJson(tempMap));
 				gs.getPlayer2().getBasicRemote().sendText(gson.toJson(tempMap));
 			} catch (IOException e) {
-				e.printStackTrace();
-				System.out.println("EXCEPTION!!!");
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 			break;
 
 		case "registration":
-			System.out.println("REGISTRATION-------------------------------");
 			int selfId = Integer.parseInt(map.get("selfId"));
 			GameState gs = new GameState();
 			gs.setPlayer1(session);
@@ -83,13 +84,11 @@ public class WebSocketServer {
 				tempMap.put("event", "play");
 				tempMap.put("hole", map.get("hole"));
 				tempMap.put("gamestate", gs.toJson());
-				System.out.println(gs.toJson());
 
 				gs.getPlayer1().getBasicRemote().sendText(gson.toJson(tempMap));
 				gs.getPlayer2().getBasicRemote().sendText(gson.toJson(tempMap));
 			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("EXCEPTION!!!");
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 			break;
 
@@ -98,7 +97,7 @@ public class WebSocketServer {
 			// SessionManager.getInstance().removeWaitingSessions(sessionId);
 			break;
 		default:
-			System.out.println("Some custom event occurred!");
+			logger.info("Custom event occurred!");
 		}
 
 	}
