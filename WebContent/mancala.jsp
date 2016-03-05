@@ -58,6 +58,22 @@
 		</table>
 	</div>
 	<div align="center" id="msg"><p></p></div>
+	
+	<div class="white-space"></div>
+	<div align="center" >
+		<h3>How to play</h3>
+		<p id="howtoplay">
+		1) Find a buddy to play the game! Share your id with them. 
+		<br> 2) Player who is entering the id in the box is Player 2.
+		<br>3) Goal area for player 1 is on right and for player 2 it's on left.
+		<br>4) Player 1 has bottom side to play. Player 2 has top side.
+		<br>5) To move, you click on one of the cell in your row. This picks up all the pieces in that cell and moves them counter-clockwise, putting one gem in each cell.
+		<br>6) If the last gem of your move lands in your goal area, you will get a free turn.
+		<br>7) If the last gem of your move lands in an empty cell on your side and there are gems in the opponents cell right opposite to it, then you win all the gems in both cells.
+		<br> You can read nice article about how to play Mancala <a href="http://www.instructables.com/id/How-to-play-mancala-1/?ALLSTEPS" target="BLANK">here.</a>
+		</p>
+	</div>
+	
 	<script src="https://code.jquery.com/jquery-2.2.0.min.js"
 		type="text/javascript"></script>
 	<script>

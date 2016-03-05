@@ -38,6 +38,7 @@ function onMessage(event) {
 		gameStarted = true;
 		activeSession = msg.sessionId;
 		$("#sessionConnector").fadeOut();
+		updateTurn();
 		break;
 
 	case 'play':
@@ -61,12 +62,7 @@ function onMessage(event) {
 		turn = (gamestate.playerTurn == player);
 		$(".highlight").removeClass("highlight");
 		$("#hole" + gamestate.lastMove).addClass("highlight");
-
-		if (turn) {
-			$("#turn").html("Your turn!");
-		} else {
-			$("#turn").html("Waiting for other player..");
-		}
+		updateTurn();
 		break;
 	}
 }
@@ -77,4 +73,12 @@ function onClose(event) {
 	msg.activeSession = activeSession;
 	msg.selfId = selfId;
 	socket.send(JSON.stringify(msg));
+}
+
+function updateTurn() {
+	if (turn) {
+		$("#turn").html("Your turn!");
+	} else {
+		$("#turn").html("Waiting for other player..");
+	}
 }
