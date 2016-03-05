@@ -63,15 +63,25 @@ public class SessionManager {
 
 	public boolean stopSession(int sessionId) {
 		sessions.remove(sessionId);
-		random.add(sessionId);
+		if (!random.contains(sessionId)) {
+			random.add(sessionId);
+		}
 		return true;
 	}
 
 	public void removeWaitingSessions(int sessionId) {
-		this.sessionIds.remove((Integer) sessionId);
+		sessionIds.remove((Integer) sessionId);
+		if (!random.contains(sessionId)) {
+			random.add(sessionId);
+		}
 	}
 
 	public void updateSession(int sessionId, GameState gs) {
 		sessions.put(sessionId, gs);
+	}
+
+	public void print() {
+		System.out.println(random.size());
+		System.out.println(sessions);
 	}
 }

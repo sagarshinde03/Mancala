@@ -233,7 +233,15 @@ public class GameState {
 
 	@Override
 	public String toString() {
-		return "GameState [player1=" + player1 + ", player2=" + player2
-		    + ", playerTurn=" + playerTurn + ", uid=" + uid + "]";
+		
+		String output = "GameState [player1=";
+		if (player1 != null) {
+			output += player1.getId();
+		} 
+		output += ", player2=";
+		if (player2 != null) {
+			output += player2.getId();
+		}
+		return  output + ", playerTurn=" + playerTurn + ", uid=" + uid + "]";
 	}
 }

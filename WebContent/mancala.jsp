@@ -73,7 +73,7 @@
 		<br> You can read nice article about how to play Mancala <a href="http://www.instructables.com/id/How-to-play-mancala-1/?ALLSTEPS" target="BLANK">here.</a>
 		</p>
 	</div>
-	
+	<br><br>&copy; Saurabh Jinturkar
 	<script src="https://code.jquery.com/jquery-2.2.0.min.js"
 		type="text/javascript"></script>
 	<script>

@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://10.0.0.24:8080/Mancala/play");
+var socket = new WebSocket("ws://localhost:8080/Mancala/play"); // 52.70.205.202
 var player = 1
 var gameStarted = false;
 var turn = false;
@@ -51,6 +51,8 @@ function onMessage(event) {
 			} else if (gamestate.winner == 2) {
 				$("#msg").html("Player 2 won!").fadeIn();
 			}
+			$("#msg").append("<p><a href='http://saurabhjinturkar.in:8080//Mancala/app'>Play again!</p>");
+			
 		}
 
 		var deck = gamestate["deck"];
@@ -64,6 +66,11 @@ function onMessage(event) {
 		$("#hole" + gamestate.lastMove).addClass("highlight");
 		updateTurn();
 		break;
+
+	case "error":
+		$("#msg").html(msg.message).fadeIn();
+		$("#msg").append("<p><a href='http://saurabhjinturkar.in:8080//Mancala/app'>Try again!</p>");
+		alert(msg.message);
 	}
 }
 

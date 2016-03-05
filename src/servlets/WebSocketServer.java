@@ -32,15 +32,43 @@ public class WebSocketServer {
 
 	@OnOpen
 	public void open(Session session) {
+
 	}
 
 	@OnClose
 	public void close(Session session) {
 
+		int sessionId = (int) session.getUserProperties().get("selfId");
+		GameState gs = SessionManager.getInstance().getSession(sessionId);
+		if (gs != null) {
+
+			Map<String, String> map = new HashMap<>();
+			map.put("event", "error");
+			map.put("message", "Other player left the game!");
+
+			try {
+				if (gs.getPlayer1()!=null && gs.getPlayer1().isOpen()) {
+					gs.getPlayer1().getBasicRemote().sendText(gson.toJson(map));
+				}
+
+				if (gs.getPlayer2() != null && gs.getPlayer2().isOpen()) {
+					gs.getPlayer2().getBasicRemote().sendText(gson.toJson(map));
+				}
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			}
+
+			SessionManager.getInstance().stopSession(sessionId);
+
+		}
+
+		SessionManager.getInstance().removeWaitingSessions(sessionId);
+		SessionManager.getInstance().print();
 	}
 
 	@OnError
 	public void onError(Throwable error) {
+		logger.log(Level.SEVERE, error.getMessage(), error);
 	}
 
 	@OnMessage
@@ -58,10 +86,11 @@ public class WebSocketServer {
 				SessionManager.getInstance().updateSession(sessionId, gs);
 				Map<String, String> tempMap = new HashMap<>();
 				tempMap.put("event", "ack");
-				tempMap.put("message", "Friend Joined! Your turn first!");
+				tempMap.put("message", "Friend Joined!");
 				tempMap.put("sessionId", sessionId + "");
 				gs.getPlayer1().getBasicRemote().sendText(gson.toJson(tempMap));
 				gs.getPlayer2().getBasicRemote().sendText(gson.toJson(tempMap));
+				session.getUserProperties().put("selfId", sessionId);
 			} catch (IOException e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
@@ -72,6 +101,7 @@ public class WebSocketServer {
 			GameState gs = new GameState();
 			gs.setPlayer1(session);
 			SessionManager.getInstance().createSession(selfId, gs);
+			session.getUserProperties().put("selfId", selfId);
 			break;
 
 		case "play":
