@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://localhost:8080/Mancala/play"); // 52.70.205.202
+var socket = new WebSocket("ws://52.70.205.202:8080/Mancala/play"); // 
 var player = 1
 var gameStarted = false;
 var turn = false;

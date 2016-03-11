@@ -1,5 +1,6 @@
 package core;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import javax.websocket.Session;
@@ -20,6 +21,16 @@ public class GameState {
 
 	public GameState() {
 		initialize();
+	}
+
+	public GameState(GameState gs) {
+		this.playerTurn = gs.playerTurn;
+		this.player1Score = gs.player1Score;
+		this.player2Score = gs.player2Score;
+		this.deck = Arrays.copyOf(gs.deck, gs.deck.length);
+		this.lastMove = gs.lastMove;
+		this.winner = gs.winner;
+		this.freeTurn = gs.freeTurn;
 	}
 
 	private void initialize() {
@@ -105,7 +116,7 @@ public class GameState {
 		}
 
 		hole++;
-		if (marbles == 1 && deck[hole] == 0 && deck[11 - hole] > 0) {
+		if (hole < 12 && marbles == 1 && deck[hole] == 0 && deck[11 - hole] > 0) {
 			if (playerTurn == 1 && hole > -1 && hole < 6) {
 				player1Score += deck[11 - hole] + 1;
 				deck[11 - hole] = 0;
@@ -233,15 +244,18 @@ public class GameState {
 
 	@Override
 	public String toString() {
-		
+
 		String output = "GameState [player1=";
 		if (player1 != null) {
 			output += player1.getId();
-		} 
+		}
 		output += ", player2=";
 		if (player2 != null) {
 			output += player2.getId();
 		}
-		return  output + ", playerTurn=" + playerTurn + ", uid=" + uid + "]";
+		// return output + ", playerTurn=" + playerTurn + ", gamestate="
+		// + Arrays.toString(deck) + "]";
+		
+		return " player1: " + player1Score + " player2: " + player2Score +" ";
 	}
 }
