@@ -18,9 +18,12 @@ public class MinMax {
 
 	private List<MinMax> list;
 
+	private int player;
+
 	public MinMax(GameState gs) {
 		this.gs = gs;
-		list = new LinkedList<>();
+		this.list = new LinkedList<>();
+		this.player = 1;
 	}
 
 	public GameState getGs() {
@@ -28,48 +31,43 @@ public class MinMax {
 	}
 
 	public void generatePossibleMoves(int level) {
-		if (gs.getWinner() > -1 || level > 4) {
+
+		if (gs.getWinner() > -1 || level > 2) {
 			return;
 		}
 
 		System.out.println(level);
-		for (int i = 0; i < 6; i++) {
-			int move = (gs.getPlayerTurn() - 1) * 6 + i;
-			GameState gs1 = new GameState(this.gs);
-			MinMax m = new MinMax(gs1);
-			m.getGs().playHole(move);
-			list.add(m);
-		}
+		generateMovesForPlayer(gs,level + player);
 
-		int maxScore = 0;
+		int maxScore = Integer.MIN_VALUE;
 		List<MinMax> goodMoves = new LinkedList<>();
 
 		if (gs.getPlayerTurn() == 1) {
 			for (MinMax m2 : list) {
-				if (m2.getGs().getPlayer1Score() > maxScore) {
-					maxScore = m2.getGs().getPlayer1Score();
+				if (m2.getGs().heuristic(1) > maxScore) {
+					maxScore = m2.getGs().heuristic(1);
 				}
 			}
 
 			for (MinMax m2 : list) {
-				if (m2.getGs().getPlayer1Score() == maxScore) {
+				if (m2.getGs().heuristic(1) >= (maxScore / 2)) {
 					goodMoves.add(m2);
 				}
 			}
 		} else {
 			for (MinMax m2 : list) {
-				if (m2.getGs().getPlayer2Score() > maxScore) {
-					maxScore = m2.getGs().getPlayer2Score();
+				if (m2.getGs().heuristic(2) > maxScore) {
+					maxScore = m2.getGs().heuristic(2);
 				}
 			}
 
 			for (MinMax m2 : list) {
-				if (m2.getGs().getPlayer2Score() == maxScore) {
+				if (m2.getGs().heuristic(2) >= (maxScore / 2)) {
 					goodMoves.add(m2);
 				}
 			}
 		}
-		System.out.println(gs.getPlayerTurn() + ">>MAX_SCORE=> " + maxScore);
+		System.out.println(goodMoves + ">>MAX_SCORE=> " + maxScore);
 		level++;
 		for (MinMax minMax : goodMoves) {
 			minMax.generatePossibleMoves(level);
@@ -77,8 +75,44 @@ public class MinMax {
 
 	}
 
+	/**
+	 * @param player 
+	 * 
+	 */
+	private void generateMovesForPlayer(GameState gs, int player) {
+		if (gs.getPlayerTurn() != player) {
+			return;
+		}
+		for (int i = 0; i < 6; i++) {
+			int move = (gs.getPlayerTurn() - 1) * 6 + i;
+			GameState gs1 = new GameState(this.gs);
+			MinMax m = new MinMax(gs1);
+			m.getGs().playHole(move);
+			list.add(m);
+		}
+	}
+
 	public List<MinMax> getList() {
 		return list;
+	}
+
+	@Override
+	public String toString() {
+		return "MinMax [gs=" + gs + "list=" + list + "]";
+	}
+
+	static int count = 0;
+
+	public void print(MinMax m) {
+		if (m.list.isEmpty()) {
+			System.out.println(++count + " " + m.getGs());
+			return;
+		}
+
+		for (MinMax minMax : m.list) {
+			print(minMax);
+		}
+
 	}
 
 	public static void main(String[] args) {
@@ -88,11 +122,7 @@ public class MinMax {
 		for (MinMax m2 : m.getList()) {
 			System.out.println(m2);
 		}
-	}
-
-	@Override
-	public String toString() {
-		return "MinMax [gs=" + gs + "list=" + list + "]";
+		m.print(m);
 	}
 
 }

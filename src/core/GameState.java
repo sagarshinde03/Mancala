@@ -116,7 +116,8 @@ public class GameState {
 		}
 
 		hole++;
-		if (hole < 12 && marbles == 1 && deck[hole] == 0 && deck[11 - hole] > 0) {
+		if (hole < 12 && marbles == 1 && deck[hole] == 0
+		    && deck[11 - hole] > 0) {
 			if (playerTurn == 1 && hole > -1 && hole < 6) {
 				player1Score += deck[11 - hole] + 1;
 				deck[11 - hole] = 0;
@@ -220,6 +221,30 @@ public class GameState {
 		this.freeTurn = freeTurn;
 	}
 
+	public int heuristic(int forPlayer) {
+		int output = 0;
+		if (forPlayer == 1) {
+			if (winner == 1) {
+				output = Integer.MAX_VALUE;
+			} else {
+				output += 10 * (player1Score - player2Score);
+				if (playerTurn == 1) {
+					output += 5;
+				}
+			}
+		} else {
+			if (winner == 2) {
+				output = Integer.MAX_VALUE;
+			} else {
+				output += 10 * (player2Score - player1Score);
+				if (playerTurn == 2) {
+					output += 5;
+				}
+			}
+		}
+		return output;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -255,7 +280,8 @@ public class GameState {
 		}
 		// return output + ", playerTurn=" + playerTurn + ", gamestate="
 		// + Arrays.toString(deck) + "]";
-		
-		return " player1: " + player1Score + " player2: " + player2Score +" ";
+
+		return " player1: " + player1Score + " player2: " + player2Score
+		    + " heuristic:" + heuristic(1) + " " + heuristic(2) +" ";
 	}
 }
